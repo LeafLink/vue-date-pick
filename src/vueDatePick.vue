@@ -14,6 +14,7 @@
                 v-bind="inputAttributes"
                 :readonly="isReadOnly"
                 :value="inputValue"
+                :placeholder="placeholder"
                 @input="editable && processUserInput($event.target.value)"
                 @focus="editable && open()"
                 @click="editable && open()"
@@ -183,6 +184,10 @@ export default {
         editable: {
             type: Boolean,
             default: true
+        },
+        placeholder: {
+            type: String,
+            default: ''
         },
         hasInputElement: {
             type: Boolean,
