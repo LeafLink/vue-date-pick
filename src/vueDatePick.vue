@@ -14,6 +14,7 @@
                 v-bind="inputAttributes"
                 :readonly="isReadOnly"
                 :value="inputValue"
+                :placeholder="placeholder"
                 @input="editable && processUserInput($event.target.value)"
                 @focus="editable && open()"
                 @click="editable && open()"
@@ -33,7 +34,10 @@
                 @click="closeViaOverlay"
                 :class="[positionClass, {vdpFloating: hasInputElement}]"
             >
-                <div class="vdpInnerWrap">
+                <div
+                  class="vdpInnerWrap"
+                  @blur="close"
+                >
                     <header class="vdpHeader">
                         <button
                             class="vdpArrow vdpArrowPrev"
@@ -190,6 +194,10 @@ export default {
         },
         inputAttributes: {
             type: Object
+        },
+        placeholder: {
+            type: String,
+            default: ''
         },
         selectableYearRange: {
             type: [Number, Object, Function],
