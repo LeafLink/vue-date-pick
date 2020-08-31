@@ -18,6 +18,7 @@
                 @input="editable && processUserInput($event.target.value)"
                 @focus="editable && open()"
                 @click="editable && open()"
+                @focusout="close"
             >
             <button
                 v-if="editable && hasInputElement && inputValue"
@@ -32,12 +33,10 @@
                 class="vdpOuterWrap"
                 ref="outerWrap"
                 @click="closeViaOverlay"
+                @focusout="forceClose"
                 :class="[positionClass, {vdpFloating: hasInputElement}]"
             >
-                <div
-                  class="vdpInnerWrap"
-                  @blur="close"
-                >
+                <div class="vdpInnerWrap">
                     <header class="vdpHeader">
                         <button
                             class="vdpArrow vdpArrowPrev"
@@ -197,7 +196,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: ''
+            default: 'X3'
         },
         selectableYearRange: {
             type: [Number, Object, Function],
@@ -623,6 +622,13 @@ export default {
             }
             this.direction = undefined;
 
+        },
+
+        forceClose() {
+            this.opened = false;
+            this.direction = undefined;
+            this.removeCloseEvents();
+            this.teardownPosition();
         },
 
         close() {
