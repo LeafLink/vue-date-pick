@@ -31,7 +31,6 @@
                 v-if="opened"
                 class="vdpOuterWrap"
                 ref="outerWrap"
-                tabindex="1"
                 @click="closeViaOverlay"
                 @focusout="closeViaOverlay"
                 :class="[positionClass, {vdpFloating: hasInputElement}]"
@@ -196,7 +195,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: 'X2'
+            default: 'X4'
         },
         selectableYearRange: {
             type: [Number, Object, Function],
@@ -472,6 +471,12 @@ export default {
 
     methods: {
 
+        setFocus() {
+            this.$nextTick(function() {
+                this.$refs.outerWrap.focus();
+            });
+        },
+
         valueToInputFormat(value) {
 
             return !this.displayFormat ? value : this.formatDateToString(
@@ -620,9 +625,7 @@ export default {
                 this.addCloseEvents();
                 this.setupPosition();
 
-                this.$nextTick(function() {
-                    this.$refs.outerWrap.focus();
-                });
+                this.setFocus();
             }
             this.direction = undefined;
 
